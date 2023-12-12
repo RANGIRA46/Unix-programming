@@ -1,3 +1,9 @@
+                                                                              12 December 2023
+Reg No: 222021186                                                     
+Names: Baraka Johnson
+Unix Programming
+
+
 (1) Write a Shell Scripts that takes three numbers on the command line and does the following
  Checks that the number of command line arguments is correct (3). If not write an error message in a file called error.txt and exit
 If the number of command line arguments is correct write the numbers in a file called numbers, in ascending order.
