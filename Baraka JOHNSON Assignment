@@ -1,0 +1,87 @@
+(1) Write a Shell Scripts that takes three numbers on the command line and does the following
+ Checks that the number of command line arguments is correct (3). If not write an error message in a file called error.txt and exit
+If the number of command line arguments is correct write the numbers in a file called numbers, in ascending order.
+
+Solution
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+    echo "Error: Incorrect number of arguments. Usage: $0 <num1> <num2> <num3>" > error.txt
+    exit 1
+fi
+
+echo "$@" | tr ' ' '\n' | sort -n > numbers
+echo "Numbers sorted and saved in 'numbers' file."
+(2) Write A shell script that takes a directory as a command line arguments and writes the number of files and number of subfolders in a file called accounts.txt#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Error: Incorrect number of arguments. Usage: $0 <directory>" > error.txt
+    exit 1
+fi
+
+directory="$1"
+
+if [ ! -d "$directory" ]; then
+    echo "Error: '$directory' is not a directory." > error.txt
+    exit 1
+fi
+
+files=$(find "$directory" -type f | wc -l)
+subfolders=$(find "$directory" -type d | wc -l)
+
+echo "Files: $files" > accounts.txt
+echo "Subfolders: $subfolders" >> accounts.txt
+echo "File count and subfolder count saved in 'accounts.txt' file."
+(3) Write A Shell Script that takes a simple arithmetic expression involving integers only and evaluates the value of the expression.
+For example if the input is  5 + 7 it should display 5  + 7 =12
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Error: Incorrect number of arguments. Usage: $0 <arithmetic_expression>"
+    exit 1
+fi
+
+result=$(( $1 ))
+echo "$1 = $result"
+
+
+(4) Write a Sell script that takes a positive integer from the command line and displays its factorial. If the number entered is negative, display an error on the standard output.
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Error: Incorrect number of arguments. Usage: $0 <positive_integer>"
+    exit 1
+fi
+
+number=$1
+
+if [ $number -lt 0 ]; then
+    echo "Error: Please enter a positive integer."
+    exit 1
+fi
+
+factorial=1
+for ((i=1; i<=$number; i++)); do
+    factorial=$((factorial * i))
+done
+
+echo "Factorial of $number is $factorial"
+(5) Write a shell script that takes two folders from the command lines and deletes from directory 1 all the files that are also in directory 2. Check for the correct number of arguments, and display an appropriate message if the number of arguments is incorrect or if any of the arguments is not a folder.
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+    echo "Error: Incorrect number of arguments. Usage: $0 <directory1> <directory2>"
+    exit 1
+fi
+
+dir1="$1"
+dir2="$2"
+
+if [ ! -d "$dir1" ] || [ ! -d "$dir2" ]; then
+    echo "Error: Both arguments must be directories."
+    exit 1
+fi
+
+comm -23 <(ls "$dir1") <(ls "$dir2") | xargs -I {} rm "$dir1/{}"
+
+echo "Common files deleted from directory1."
